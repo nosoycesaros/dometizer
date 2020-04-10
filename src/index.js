@@ -1,23 +1,21 @@
-import DOMetizer from './dometizer'
+import o from './dometizer'
 
-const title = new DOMetizer({
+const title = o.create({
     type: 'h1',
     text: 'This is a Title'
 })
 
-const subtitle = new DOMetizer({
+const subtitle = o.create({
     type: 'h4',
     text: 'The fantabulous subtitle',
     className: ['subtitle']
 })
 
-const container = new DOMetizer({
+const container = o.create({
     className: ['container'],
-    'data-argument': 'hello',
-    children: [
-        title.element,
-        subtitle.element
-    ]
+    'data-argument': 'hello'
 })
 
-document.body.appendChild(container.element);
+o.append(container, [title, subtitle])
+
+document.body.appendChild(container);

@@ -5,18 +5,13 @@ An easy way to create complex DOM elements with a lot of attributes using vanill
 Let's create a simple `button` element with custom class names and a custom `data-attribute`
 
 ```js
-import DOMetizer from './dometizer'
+import o from './dometizer'
 
-const myButton = new DOMetizer({
+const myButton = o.create({
   type: 'button',
   className: ['button button--primary'],
   'data-attribute': 'hello'
 })
-```
-
-in order to access the `HTMLElement` of the DOMetizer just use
-```js
-  myButton.element
 ```
 
 ## Arguments
