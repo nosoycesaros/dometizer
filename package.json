@@ -1,0 +1,16 @@
+{
+  "name": "dom-creator",
+  "version": "1.0.0",
+  "description": "An easy way to create complex dom elements",
+  "private": true,
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack"
+  },
+  "author": "nosoycesaros",
+  "license": "MIT",
+  "devDependencies": {
+    "webpack": "^4.42.1",
+    "webpack-cli": "^3.3.11"
+  }
+}
