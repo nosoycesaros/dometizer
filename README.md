@@ -14,7 +14,9 @@ const myButton = o.create({
 })
 ```
 
-## Arguments
+## Methods
+
+### create
 
 | Argument  | Description                                                                   | Default   |
 |-----------|-------------------------------------------------------------------------------|-----------|
@@ -22,3 +24,13 @@ const myButton = o.create({
 | className | Array<String>: Classes to be added to HTMLElement                             | []        |
 | text      | String: Inner text to be added to the HTMLElement                             | undefined |
 | children  | Array<HTMLElement>: List of child elements of the DOM Element we are creating | []        |
+
+```js
+const myButton = o.create({
+  type: 'button',
+  className: ['button button--primary'],
+  'data-attribute': 'hello',
+  id: 'my-button',
+  text: 'Click Me!'
+})
+```

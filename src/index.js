@@ -13,9 +13,19 @@ const subtitle = o.create({
 
 const container = o.create({
     className: ['container'],
+    id: 'main-container',
     'data-argument': 'hello'
 })
 
-o.append(container, [title, subtitle])
+
+const button = o.createWithSelector('button#the-button.button')
+
+o.extend(button, {
+    text: 'Click Me!',
+    className: ['button--primary'],
+    'data-toggle': 'modal'
+})
+
+o.append(container, [title, subtitle, button])
 
 document.body.appendChild(container);

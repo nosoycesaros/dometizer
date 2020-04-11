@@ -5,8 +5,42 @@ class DOMetizer {
     this.parser = createParser()
   }
 
-  create({ type, className = [], children = [], text, ...attributes }) {
+  create({ type, ...attributes }) {
     const element = document.createElement(type ? type : 'div')
+
+    return this.extend(element, attributes)
+  }
+
+  parseSelector(selector) {
+    const parsed = this.parser.parse(selector)[0].body
+    const processed = parsed.slice().reduce((acc, prop) => {
+      if (acc.hasOwnProperty(prop.type)) {
+        acc[prop.type].push(prop.name)
+      } else {
+        acc[prop.type] = [prop.name]
+      }
+
+      return acc
+    }, {})
+
+    return processed
+  }
+
+  createWithSelector(selector) {
+    const attributes = this.parseSelector(selector)
+
+    return this.create({
+      type: attributes.typeSelector[0],
+      className: attributes.classSelector,
+      id: attributes.idSelector[0]
+    })
+  }
+
+  append(element, children) {
+    children.forEach(child => element.appendChild(child))
+  }
+
+  extend(element, { className = [], children = [], text, ...attributes }) {
     const textNode = text ? [document.createTextNode(text)] : []
 
     element.classList.add(...className)
@@ -15,39 +49,6 @@ class DOMetizer {
     Object.entries(attributes).forEach(attr => element.setAttribute(attr[0], attr[1]))
 
     return element
-  }
-
-  parseSelector(selector) {
-    const parsed = this.parser.parse(selector)[0].body
-
-    const a = parsed.slice().reduce((acc, prop) => {
-      if (acc.hasOwnProperty(prop.type)) {
-        acc[prop.type].push(prop.name)
-      } else {
-        acc[prop.type] = [prop.name]
-      }
-
-      console.log(acc)
-
-      return acc
-    }, {})
-
-    return parsed
-  }
-
-  createWithSelector(selector) {
-    const attributes = {}
-
-    console.log( this.parseSelector(selector) )
-
-    // parsed.forEach(property => {
-    //   attributes.type = property.typeSelector
-    // })
-
-  }
-
-  append(element, children) {
-    children.forEach(child => element.appendChild(child))
   }
 }
 
