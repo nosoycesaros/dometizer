@@ -34,3 +34,25 @@ const myButton = o.create({
   text: 'Click Me!'
 })
 ```
+
+### createWithSelector
+
+```js
+const button = o.createWithSelector('button#the-button.button.button--primary')
+```
+
+### extend
+
+```js
+o.extend(button, {
+    text: 'Click Me!',
+    className: ['button--primary'],
+    'data-toggle': 'modal'
+})
+```
+
+### append
+
+```js
+o.append(myElement, [the, child, elements])
+```
