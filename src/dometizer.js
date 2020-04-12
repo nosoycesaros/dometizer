@@ -1,57 +1,56 @@
 import { createParser } from 'scalpel';
 
-class DOMetizer {
-  constructor() {
-    this.parser = createParser()
-  }
+function create({ type, ...attributes }) {
+  const element = document.createElement(type ? type : 'div')
 
-  create({ type, ...attributes }) {
-    const element = document.createElement(type ? type : 'div')
-
-    return this.extend(element, attributes)
-  }
-
-  parseSelector(selector) {
-    const parsed = this.parser.parse(selector)[0].body
-    const processed = parsed.slice().reduce((acc, prop) => {
-      if (acc.hasOwnProperty(prop.type)) {
-        acc[prop.type].push(prop.name)
-      } else {
-        acc[prop.type] = [prop.name]
-      }
-
-      return acc
-    }, {})
-
-    return processed
-  }
-
-  createWithSelector(selector) {
-    const attributes = this.parseSelector(selector)
-
-    return this.create({
-      type: attributes.typeSelector[0],
-      className: attributes.classSelector,
-      id: attributes.idSelector[0]
-    })
-  }
-
-  append(element, children) {
-    children.forEach(child => element.appendChild(child))
-  }
-
-  extend(element, { className = [], children = [], text, ...attributes }) {
-    const textNode = text ? [document.createTextNode(text)] : []
-
-    element.classList.add(...className)
-    this.append(element, [...textNode, ...children])
-
-    Object.entries(attributes).forEach(attr => element.setAttribute(attr[0], attr[1]))
-
-    return element
-  }
+  return extend(element, attributes)
 }
 
-const o = new DOMetizer()
+function parseSelector(selector) {
+  const parser = createParser()
+  const parsed = parser.parse(selector)[0].body
+  const processed = parsed.slice().reduce((acc, prop) => {
+    if (acc.hasOwnProperty(prop.type)) {
+      acc[prop.type].push(prop.name)
+    } else {
+      acc[prop.type] = [prop.name]
+    }
 
-export default o
+    return acc
+  }, {})
+
+  return processed
+}
+
+function createFromSelector(selector) {
+  const attributes = parseSelector(selector)
+
+  return create({
+    type: attributes.typeSelector[0],
+    className: attributes.classSelector,
+    id: attributes.idSelector[0]
+  })
+}
+
+function append(element, children) {
+  children.forEach(child => element.appendChild(child))
+}
+
+function extend(element, { className = [], children =[], text, ...attributes }) {
+  const newElement = element.cloneNode(true)
+  const textNode = text ? [document.createTextNode(text)] : []
+
+  newElement.classList.add(...className)
+  append(newElement, [...textNode, ...children])
+
+  Object.entries(attributes).forEach(attr => newElement.setAttribute(attr[0], attr[1]))
+
+  return newElement
+}
+
+export {
+  create,
+  createFromSelector,
+  append,
+  extend
+}
