@@ -5,9 +5,9 @@ An easy way to create complex DOM elements with a lot of attributes using vanill
 Let's create a simple `button` element with custom class names and a custom `data-attribute`
 
 ```js
-import o from './dometizer'
+import { create } from './dometizer'
 
-const myButton = o.create({
+const myButton = create({
   type: 'button',
   className: ['button button--primary'],
   'data-attribute': 'hello'
@@ -26,7 +26,9 @@ const myButton = o.create({
 | children  | Array<HTMLElement>: List of child elements of the DOM Element we are creating | []        |
 
 ```js
-const myButton = o.create({
+import { create } from './dometizer'
+
+const myButton = create({
   type: 'button',
   className: ['button button--primary'],
   'data-attribute': 'hello',
@@ -35,16 +37,20 @@ const myButton = o.create({
 })
 ```
 
-### createWithSelector
+### createFromSelector
 
 ```js
-const button = o.createWithSelector('button#the-button.button.button--primary')
+import { createFromSelector } from './dometizer'
+
+const button = createFromSelector('button#the-button.button.button--primary')
 ```
 
 ### extend
 
 ```js
-o.extend(button, {
+import { extend } from './dometizer'
+
+const extendedButton = extend(button, {
     text: 'Click Me!',
     className: ['button--primary'],
     'data-toggle': 'modal'
@@ -54,5 +60,7 @@ o.extend(button, {
 ### append
 
 ```js
-o.append(myElement, [the, child, elements])
+import { append } from './dometizer'
+
+append(myElement, [the, child, elements])
 ```
