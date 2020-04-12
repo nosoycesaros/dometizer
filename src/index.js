@@ -24,6 +24,7 @@ const container = create({
 
 
 const button = createFromSelector('button#the-button.button')
+
 const extendedButton = extend(button, {
     text: 'Click Me!',
     className: ['button--primary'],

@@ -9,7 +9,7 @@ import { create } from './dometizer'
 
 const myButton = create({
   type: 'button',
-  className: ['button button--primary'],
+  className: ['button', 'button--primary'],
   'data-attribute': 'hello'
 })
 ```
@@ -30,7 +30,7 @@ import { create } from './dometizer'
 
 const myButton = create({
   type: 'button',
-  className: ['button button--primary'],
+  className: ['button', 'button--primary'],
   'data-attribute': 'hello',
   id: 'my-button',
   text: 'Click Me!'
