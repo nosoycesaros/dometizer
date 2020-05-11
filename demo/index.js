@@ -1,36 +1,28 @@
-import {
-  create,
-  createFromSelector,
-  append,
-  extend
-} from '../src'
-
-const title = create({
+const title = dometizer.create({
     type: 'h1',
     text: 'This is a Title'
 })
 
-const subtitle = create({
+const subtitle = dometizer.create({
     type: 'h4',
     text: 'The fantabulous subtitle',
     className: ['subtitle']
 })
 
-const container = create({
+const container = dometizer.create({
     className: ['container', 'container--fluid'],
     id: 'main-container',
     'data-argument': 'hello'
 })
 
+const button = dometizer.createFromSelector('button#the-button.button')
 
-const button = createFromSelector('button#the-button.button')
-
-const extendedButton = extend(button, {
+const extendedButton = dometizer.extend(button, {
     text: 'Click Me!',
     className: ['button--primary'],
     'data-toggle': 'modal'
 })
 
-append(container, [title, subtitle, extendedButton])
+dometizer.append(container, [title, subtitle, extendedButton])
 
 document.body.appendChild(container);

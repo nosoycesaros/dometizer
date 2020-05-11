@@ -2,7 +2,8 @@
   "name": "dometizer",
   "version": "1.0.0",
   "description": "An easy way to create complex dom elements in vanilla JS",
-  "main": "src/main.js",
+  "main": "dist/main.js",
+  "repository": {"url": "https://github.com/nosoycesaros/dometizer"},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack",

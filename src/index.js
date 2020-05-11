@@ -1,4 +1,4 @@
-import { createParser } from 'scalpel';
+import { createParser } from 'scalpel'
 
 function create({ type, ...attributes }) {
   const element = document.createElement(type ? type : 'div')
