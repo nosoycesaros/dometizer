@@ -1,8 +1,9 @@
 {
-  "name": "dom-creator",
+  "name": "dometizer",
   "version": "1.0.0",
-  "description": "An easy way to create complex dom elements",
+  "description": "An easy way to create complex dom elements in vanilla JS",
   "private": true,
+  "main": "src/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack",
