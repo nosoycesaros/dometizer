@@ -1,6 +1,6 @@
 {
   "name": "dometizer",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "An easy way to create complex dom elements in vanilla JS",
   "main": "dist/main.js",
   "repository": {"url": "https://github.com/nosoycesaros/dometizer"},
