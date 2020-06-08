@@ -33,7 +33,9 @@ function createFromSelector(selector) {
 }
 
 function append(element, children) {
-  children.forEach(child => element.appendChild(child))
+  const fragment = document.createDocumentFragment()
+  children.forEach(child => fragment.appendChild(child))
+  element.appendChild(fragment)
 }
 
 function extend(element, { className = [], children =[], text, ...attributes }) {
