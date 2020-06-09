@@ -1,20 +1,27 @@
 {
   "name": "dometizer",
-  "version": "1.0.1",
+  "version": "1.1.2",
   "description": "An easy way to create complex dom elements in vanilla JS",
-  "main": "dist/main.js",
-  "repository": {"url": "https://github.com/nosoycesaros/dometizer"},
+  "main": "cjs/index.js",
+  "module": "esm/index.js",
+  "browser": "umd/dometizer.js",
+  "repository": {
+    "url": "https://github.com/nosoycesaros/dometizer"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "webpack",
-    "start:dev": "webpack-dev-server"
+    "prepare": "rollup --config"
   },
+  "files": [
+    "cjs/*",
+    "esm/*",
+    "umd/*"
+  ],
   "author": "nosoycesaros",
   "license": "MIT",
   "devDependencies": {
-    "webpack": "^4.42.1",
-    "webpack-cli": "^3.3.11",
-    "webpack-dev-server": "^3.10.3"
+    "rollup": "^2.15.0",
+    "rollup-plugin-terser": "^6.1.0"
   },
   "dependencies": {
     "scalpel": "^3.0.0"
