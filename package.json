@@ -4,6 +4,7 @@
   "description": "An easy way to create complex dom elements in vanilla JS",
   "main": "cjs/index.js",
   "module": "esm/index.js",
+  "browser": "umd/dometizer.js",
   "repository": {
     "url": "https://github.com/nosoycesaros/dometizer"
   },
