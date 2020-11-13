@@ -1,6 +1,10 @@
 const { createParser } = require('scalpel');
 const create = require('./create');
 
+/**
+ * Parse a Selector to a useful format for Dometizer
+ * @param {string} selector 
+ */
 function parseSelector(selector) {
   const parser = createParser();
   const parsed = parser.parse(selector)[0].body;
@@ -17,6 +21,10 @@ function parseSelector(selector) {
   return processed
 }
 
+/**
+ * Use a given selector to create an element with different properties in it
+ * @param {string} selector given selector to create an object
+ */
 function createFromSelector(selector) {
   const attributes = parseSelector(selector);
 
