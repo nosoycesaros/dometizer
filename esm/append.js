@@ -4,4 +4,4 @@ function append(element, children) {
     element.appendChild(fragment);
 }
 
-export default append;
+module.exports = append;

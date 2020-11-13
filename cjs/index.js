@@ -1,16 +1,13 @@
 'use strict';
 
-Object.defineProperty(exports, '__esModule', { value: true });
+const create = require('./create');
+const append = require('./append');
+const extend = require('./extend');
+const createFromSelector = require('./createFromSelector');
 
-var append = require('./append.js');
-var extend = require('./extend.js');
-var create = require('./create.js');
-require('scalpel');
-var createFromSelector = require('./createFromSelector.js');
-
-
-
-exports.append = append;
-exports.extend = extend;
-exports.create = create;
-exports.createFromSelector = createFromSelector;
+module.exports = {
+    create,
+    append,
+    extend,
+    createFromSelector
+};

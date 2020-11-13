@@ -1,5 +1,4 @@
-import './append.js';
-import extend from './extend.js';
+const extend = require('./extend.js');
 
 function create({ type, ...attributes }) {
     const element = document.createElement(type ? type : 'div');
@@ -7,4 +6,4 @@ function create({ type, ...attributes }) {
     return extend(element, attributes)
 }
 
-export default create;
+module.exports = create;

@@ -1,7 +1,6 @@
 'use strict';
 
-require('./append.js');
-var extend = require('./extend.js');
+const extend = require('./extend.js');
 
 function create({ type, ...attributes }) {
     const element = document.createElement(type ? type : 'div');

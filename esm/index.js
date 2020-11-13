@@ -1,5 +1,11 @@
-export { default as append } from './append.js';
-export { default as extend } from './extend.js';
-export { default as create } from './create.js';
-import 'scalpel';
-export { default as createFromSelector } from './createFromSelector.js';
+const create = require('./create');
+const append = require('./append');
+const extend = require('./extend');
+const createFromSelector = require('./createFromSelector');
+
+module.exports = {
+    create,
+    append,
+    extend,
+    createFromSelector
+};

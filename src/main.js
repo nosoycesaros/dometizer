@@ -1,4 +1,11 @@
-export {default as create} from './create'
-export {default as createFromSelector} from './createFromSelector'
-export {default as append} from './append'
-export {default as extend} from './extend'
+const create = require('./create')
+const append = require('./append')
+const extend = require('./extend')
+const createFromSelector = require('./createFromSelector')
+
+module.exports = {
+    create,
+    append,
+    extend,
+    createFromSelector
+}

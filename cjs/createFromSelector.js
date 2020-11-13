@@ -1,12 +1,10 @@
 'use strict';
 
-require('./append.js');
-require('./extend.js');
-var create = require('./create.js');
-var scalpel = require('scalpel');
+const { createParser } = require('scalpel');
+const create = require('./create');
 
 function parseSelector(selector) {
-  const parser = scalpel.createParser();
+  const parser = createParser();
   const parsed = parser.parse(selector)[0].body;
   const processed = parsed.slice().reduce((acc, prop) => {
     if (acc.hasOwnProperty(prop.type)) {

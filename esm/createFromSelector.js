@@ -1,7 +1,5 @@
-import './append.js';
-import './extend.js';
-import create from './create.js';
-import { createParser } from 'scalpel';
+const { createParser } = require('scalpel');
+const create = require('./create');
 
 function parseSelector(selector) {
   const parser = createParser();
@@ -29,4 +27,4 @@ function createFromSelector(selector) {
   })
 }
 
-export default createFromSelector;
+module.exports = createFromSelector;

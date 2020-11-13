@@ -9,7 +9,7 @@
     "url": "https://github.com/nosoycesaros/dometizer"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
     "prepare": "rollup --config"
   },
   "files": [
@@ -20,6 +20,7 @@
   "author": "nosoycesaros",
   "license": "MIT",
   "devDependencies": {
+    "jest": "^26.6.3",
     "rollup": "^2.15.0",
     "rollup-plugin-terser": "^6.1.0"
   },

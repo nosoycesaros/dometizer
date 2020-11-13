@@ -1,5 +1,5 @@
-import { createParser } from 'scalpel'
-import create from './create'
+const { createParser } = require('scalpel')
+const create = require('./create')
 
 function parseSelector(selector) {
   const parser = createParser()
@@ -17,7 +17,7 @@ function parseSelector(selector) {
   return processed
 }
 
-export default function createFromSelector(selector) {
+function createFromSelector(selector) {
   const attributes = parseSelector(selector)
 
   return create({
@@ -26,3 +26,5 @@ export default function createFromSelector(selector) {
     id: attributes.idSelector[0]
   })
 }
+
+module.exports = createFromSelector
