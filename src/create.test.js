@@ -14,7 +14,5 @@ test('Create an ellement with attributes', () => {
     expect(button.dataset.attribute).toBe(properties['data-attribute'])
     expect(button.id).toBe(properties.id)
     expect(button.innerHTML).toBe(properties.text)
-    properties.className.forEach(classString => {
-        expect([...button.classList]).toContain(classString)
-    })
+    expect([...button.classList]).toEqual( expect.arrayContaining(properties.className) )
 })
