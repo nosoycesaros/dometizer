@@ -1,6 +1,6 @@
 {
   "name": "dometizer",
-  "version": "1.1.4",
+  "version": "1.1.5",
   "description": "An easy way to create complex dom elements in vanilla JS",
   "main": "dist/index.js",
   "module": "dist/index.es.js",
