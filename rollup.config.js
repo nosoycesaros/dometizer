@@ -1,35 +1,44 @@
 import { terser } from 'rollup-plugin-terser'
+import pkg from './package.json'
+import typescript from 'rollup-plugin-typescript2'
+import babel from '@rollup/plugin-babel';
 
-export default [{
-    input: 'src/main.js',
-    plugins: [terser()],
-    external: ['scalpel'],
-    output: {
-        file: 'umd/dometizer.js',
-        format: 'umd',
-        name: 'dometizer',
-        esModule: false,
-        globals: {
-            'scalpel': 'scalpel'
+const plugins = [
+    typescript(),
+    babel(),
+    terser()
+]
+
+export default [
+    {
+        input: 'src/main.ts',
+        plugins,
+        external: ['scalpel'],
+        output: {
+            file: pkg.browser,
+            format: 'umd',
+            name: 'dometizer',
+            esModule: false,
+            globals: {
+                'scalpel': 'scalpel'
+            }
         }
-    }
-},
-{
-    input: {
-        index: 'src/main.js',
-        create: 'src/create.js',
-        extend: 'src/extend.js',
-        createFromSelector: 'src/createFromSelector.js',
-        append: 'src/append.js'
     },
-    external: ['scalpel'],
-    output: [
-        {
-            dir: 'esm',
-            format: 'esm'
-        }, {
-            dir: 'cjs',
-            format: 'cjs'
-        }
-    ]
-}]
+    {
+        input: 'src/main.ts',
+        plugins,
+        external: [
+            ...Object.keys(pkg.dependencies || {}),
+            ...Object.keys(pkg.peerDependencies || {}),
+        ],
+        output: [
+            {
+                file: pkg.module,
+                format: 'es'
+            },
+            {
+                file: pkg.main,
+                format: 'cjs'
+            }
+        ]
+    }]
