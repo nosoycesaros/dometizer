@@ -1,6 +1,8 @@
-'use strict';
+import extend, { Attributes } from './extend'
 
-const extend = require('./extend.js');
+const attributeDefaults: Attributes = {
+    type: 'div'
+}
 
 /**
  * Create an HTMLElement of a given type and gyven properties
@@ -8,10 +10,9 @@ const extend = require('./extend.js');
  * @param {object} attributes 
  * @param {string} [attributes.type=div] Type of HTMLElement to be created. defaults to div
  */
-function create({ type, ...attributes }) {
+export default function create(attributes: Attributes) {
+    const { type, ...rest } = { ...attributeDefaults, ...attributes }
     const element = document.createElement(type ? type : 'div');
 
-    return extend(element, attributes)
+    return extend(element, rest)
 }
-
-module.exports = create;

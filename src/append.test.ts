@@ -1,8 +1,8 @@
-const append = require('./append')
+import append from './append'
 
 test('Append elements to Container', () => {
   document.body.innerHTML = `<ul class='list'></ul>`
-  const container = document.querySelector('.list')
+  const container = <HTMLElement>document.querySelector('.list')
 
   const elements = [
     document.createElement('li'),

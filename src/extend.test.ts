@@ -1,4 +1,4 @@
-const extend = require('./extend')
+import extend from './extend'
 
 test('Extend button with new classes', () => {
     const button = document.createElement('button')
@@ -9,6 +9,6 @@ test('Extend button with new classes', () => {
     })
 
     expect(extendedButton.innerHTML).toBe('Click Me!')
-    expect([...extendedButton.classList]).toContain('button--primary')
+    expect(Array.from(extendedButton.classList)).toContain('button--primary')
     expect(extendedButton.dataset.toggle).toBe('modal')
 })
