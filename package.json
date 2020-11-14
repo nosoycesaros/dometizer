@@ -1,30 +1,41 @@
 {
   "name": "dometizer",
-  "version": "1.1.3",
+  "version": "1.1.4",
   "description": "An easy way to create complex dom elements in vanilla JS",
-  "main": "cjs/index.js",
-  "module": "esm/index.js",
-  "browser": "umd/dometizer.js",
+  "main": "dist/index.js",
+  "module": "dist/index.es.js",
+  "browser": "dist/index.umd.js",
+  "types": "dist/main.d.ts",
   "repository": {
     "url": "https://github.com/nosoycesaros/dometizer"
   },
   "scripts": {
     "test": "jest",
-    "prepare": "rollup --config"
+    "build": "rollup --config"
   },
   "files": [
-    "cjs/*",
-    "esm/*",
-    "umd/*"
+    "dist"
   ],
   "author": "nosoycesaros",
   "license": "MIT",
   "devDependencies": {
+    "@babel/core": "^7.12.3",
+    "@babel/preset-env": "^7.12.1",
+    "@babel/preset-typescript": "^7.12.1",
+    "@rollup/plugin-babel": "^5.2.1",
+    "@types/jest": "^26.0.15",
+    "babel-jest": "^26.6.3",
     "jest": "^26.6.3",
     "rollup": "^2.15.0",
-    "rollup-plugin-terser": "^6.1.0"
+    "rollup-plugin-terser": "^6.1.0",
+    "rollup-plugin-typescript2": "^0.29.0",
+    "ts-jest": "^26.4.4",
+    "typescript": "^4.0.5"
   },
   "dependencies": {
     "scalpel": "^3.0.0"
+  },
+  "jest": {
+    "preset": "ts-jest"
   }
 }

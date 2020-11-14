@@ -1,6 +1,6 @@
-const create = require('./create')
+import create from './create'
 
-test('Create an ellement with attributes', () => {
+test('Create an element with attributes', () => {
     const properties = {
         type: 'button',
         className: ['button', 'button--primary'],
@@ -14,5 +14,5 @@ test('Create an ellement with attributes', () => {
     expect(button.dataset.attribute).toBe(properties['data-attribute'])
     expect(button.id).toBe(properties.id)
     expect(button.innerHTML).toBe(properties.text)
-    expect([...button.classList]).toEqual( expect.arrayContaining(properties.className) )
+    expect(Array.from(button.classList)).toEqual( expect.arrayContaining(properties.className) )
 })
