@@ -1,5 +1,12 @@
-# DOMetizer
+![dometizer-logo](https://user-images.githubusercontent.com/5192755/99138507-0ffc1900-25ff-11eb-972d-ffbb5f34ffc8.png)
+
 An easy way to create complex DOM elements with a lot of attributes using vanilla JS
+
+[![npm version](https://img.shields.io/npm/v/dometizer.svg?style=flat)](https://www.npmjs.com/package/dometizer)
+[![bundle size](https://img.shields.io/bundlephobia/minzip/dometizer.svg?label=minzip)](https://bundlephobia.com/result?p=dometizer)
+[![npm](https://img.shields.io/npm/dt/dometizer.svg)](https://www.npmjs.com/package/dometizer)
+[![GitHub](https://img.shields.io/npm/l/dometizer)](LICENSE)
+[![twitter](https://img.shields.io/badge/follow-on%20twitter-4AA1EC.svg)](https://twitter.com/nosoycesaros)
 
 ## Getting Started
 Let's create a simple `button` element with custom class names and a custom `data-attribute`
