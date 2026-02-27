@@ -1,3 +1,4 @@
+/// <reference lib="dom" />
 import append from './append'
 
 test('Append elements to Container', () => {

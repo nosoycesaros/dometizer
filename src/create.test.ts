@@ -1,3 +1,4 @@
+/// <reference lib="dom" />
 import create from './create'
 
 test('Create an element with attributes', () => {

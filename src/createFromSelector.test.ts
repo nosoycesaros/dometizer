@@ -1,3 +1,4 @@
+/// <reference lib="dom" />
 import createFromSelector from './createFromSelector'
 
 test('Create element from selector', () => {

@@ -12,21 +12,21 @@ Dometizer is a TypeScript/JavaScript library for creating complex DOM elements w
 
 ```bash
 # Run all tests
-npm test
-# or
 bun test
+# or
+npm test
 
 # Run a single test file
-npx jest src/create.test.ts
-npx jest src/append.test.ts
-npx jest src/extend.test.ts
-npx jest src/createFromSelector.test.ts
+bun test src/create.test.ts
+bun test src/append.test.ts
+bun test src/extend.test.ts
+bun test src/createFromSelector.test.ts
 
 # Run tests in watch mode
-npx jest --watch
+bun test --watch
 
 # Run tests with coverage
-npx jest --coverage
+bun test --coverage
 
 # Build the library
 npm run build
@@ -38,10 +38,17 @@ npx rollup --config --verbose
 ```
 
 ### Testing Framework
-- **Jest** with **ts-jest** preset for TypeScript support
+- **Bun test** with native TypeScript support
 - Tests are co-located with source files (`.test.ts` pattern)
-- Uses JSDOM environment for DOM manipulation testing
+- Uses happy-dom environment for DOM manipulation testing
 - Test files follow the pattern: `functionName.test.ts`
+- DOM environment configured via bunfig.toml and happydom.ts preload script
+
+### Test Environment Setup
+DOM testing is configured through:
+- `bunfig.toml`: Contains `[test] preload = ["./happydom.ts"]` to load DOM environment
+- `happydom.ts`: Preload script that registers global DOM APIs via `@happy-dom/global-registrator`
+- Test files include `/// <reference lib="dom" />` for TypeScript DOM type support
 
 ## Code Style Guidelines
 
@@ -160,7 +167,7 @@ expect(Array.from(button.classList)).toEqual(expect.arrayContaining(properties.c
 
 ### Dependencies
 - **Runtime**: Minimal dependencies (`scalpel` for CSS parsing)
-- **Development**: Standard TypeScript/Jest/Rollup toolchain
+- **Development**: Standard TypeScript/Bun/Rollup toolchain
 - Avoid adding unnecessary dependencies to keep bundle size small
 
 ## Build Output

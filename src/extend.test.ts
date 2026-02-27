@@ -1,3 +1,4 @@
+/// <reference lib="dom" />
 import extend from './extend'
 
 test('Extend button with new classes', () => {
