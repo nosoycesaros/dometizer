@@ -9,7 +9,9 @@ An easy way to create complex DOM elements with a lot of attributes using vanill
 [![twitter](https://img.shields.io/badge/follow-on%20twitter-4AA1EC.svg)](https://twitter.com/nosoycesaros)
 
 ## Getting Started
-### `yarn add dometizer`
+### `npm install dometizer`
+or  
+### `bun add dometizer`
 
 Let's create a simple `button` element with custom class names and a custom `data-attribute`
 
@@ -88,3 +90,18 @@ import { append } from 'dometizer'
 
 append(myElement, [the, child, elements])
 ```
+
+## Contributing
+
+### Development Setup
+
+This project uses [Bun](https://bun.sh/) for package management and development. To get started:
+
+1. Install Bun: `curl -fsSL https://bun.sh/install | bash`
+2. Install dependencies: `bun install`
+3. Run tests: `bun run test`
+4. Build the library: `bun run build`
+
+### Requirements
+- Node.js 18.x, 20.x, or 22.x
+- Bun (latest version)
