@@ -13,6 +13,24 @@ An easy way to create complex DOM elements with a lot of attributes using vanill
 or  
 ### `bun add dometizer`
 
+## Browser Support
+
+Dometizer targets **ES2017** and supports the following modern browsers:
+
+- **Chrome 58+** (March 2017)
+- **Firefox 52+** (March 2017) 
+- **Safari 11+** (September 2017)
+- **Edge 15+** (April 2017)
+
+**Note:** Internet Explorer is no longer supported as of version 2.0.0. For IE11 support, please use version 1.x or consider polyfills.
+
+### Migration from v1.x
+
+If you need Internet Explorer 11 support:
+- Use `npm install dometizer@1` to install the latest v1.x release
+- Or add ES2017 polyfills to your project if upgrading to v2.x
+- Consider configuring your build pipeline to transpile the library for older browsers
+
 Let's create a simple `button` element with custom class names and a custom `data-attribute`
 
 ```js

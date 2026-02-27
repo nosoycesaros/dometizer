@@ -14,7 +14,7 @@ Dometizer is a TypeScript/JavaScript library for creating complex DOM elements w
 # Run all tests
 npm test
 # or
-yarn test
+bun test
 
 # Run a single test file
 npx jest src/create.test.ts
@@ -31,7 +31,7 @@ npx jest --coverage
 # Build the library
 npm run build
 # or
-yarn build
+bun run build
 
 # Build with verbose output
 npx rollup --config --verbose
@@ -56,7 +56,7 @@ src/
 ```
 
 ### TypeScript Configuration
-- **Target**: ES5 for broad compatibility
+- **Target**: ES2017 for modern browser compatibility
 - **Module**: ES6 modules
 - **Strict**: `noImplicitAny: true`
 - **Declarations**: Generated in `dist/` directory
@@ -174,12 +174,12 @@ expect(Array.from(button.classList)).toEqual(expect.arrayContaining(properties.c
 - **Vanilla JS**: No framework dependencies
 - **TypeScript First**: Full type safety and IntelliSense support  
 - **Lightweight**: Minimal bundle size impact
-- **Browser Compatible**: Works across modern browsers (ES5 target)
+- **Browser Compatible**: Works across modern browsers (ES2017+ target: Chrome 58+, Firefox 52+, Safari 11+, Edge 15+)
 
 ## Git Workflow
 - Tests must pass before commits
 - Use semantic versioning for releases
-- GitHub Actions handle testing on Node.js 10.x, 12.x, 14.x
+- GitHub Actions handle testing on Node.js 18.x, 20.x, 22.x
 - Automated npm publishing on releases
 
 ## Notes for Agents
