@@ -248,7 +248,7 @@ describe('batchCreate', () => {
     console.error = (...args: any[]) => {
       errorCalls.push(args)
     }
-    
+
     let capturedMetrics: BatchMetrics | null = null
 
     const elements = batchCreate(
@@ -268,7 +268,7 @@ describe('batchCreate', () => {
     expect(capturedMetrics).not.toBeNull()
     expect(capturedMetrics!.elementsCreated).toBe(0)
     expect(capturedMetrics!.totalTime).toBeGreaterThan(0)
-    
+
     // This is the key test - averageTimePerElement should be 0, not Infinity/NaN
     expect(capturedMetrics!.averageTimePerElement).toBe(0)
     expect(Number.isFinite(capturedMetrics!.averageTimePerElement)).toBe(true)
