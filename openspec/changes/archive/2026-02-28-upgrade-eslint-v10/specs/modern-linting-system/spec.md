@@ -1,10 +1,6 @@
-## Purpose
+## MODIFIED Requirements
 
-Modern static code analysis and linting system using ESLint v10 with enhanced TypeScript support for improved code quality and developer productivity.
-
-## Requirements
-
-### Requirement: ESLint v10 Integration
+### Requirement: ESLint v9 Integration
 The system SHALL use ESLint v10.x for static code analysis and bug prevention.
 
 #### Scenario: TypeScript file linting
@@ -23,7 +19,7 @@ The system SHALL use ESLint v10.x for static code analysis and bug prevention.
 - **WHEN** developers use modern editors with ESLint extensions
 - **THEN** real-time linting feedback is provided with v10 improvements
 
-### Requirement: TypeScript ESLint v10 Integration
+### Requirement: TypeScript ESLint v8 Integration
 The system SHALL use @typescript-eslint/eslint-plugin and @typescript-eslint/parser versions compatible with ESLint v10 for enhanced TypeScript support.
 
 #### Scenario: TypeScript-specific rule enforcement
