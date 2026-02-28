@@ -18,11 +18,12 @@ or
 - **🚀 Performance-First**: Automatic DocumentFragment optimization for batch operations
 - **📦 Lightweight**: ~2.5KB minzipped, tree-shakeable modules
 - **🔧 TypeScript Native**: Full type safety and IntelliSense support
-- **⚡ Batch Operations**: Create thousands of elements efficiently
+- **⚡ Batch Operations**: Create thousands of elements efficiently with progress tracking
 - **🎯 Zero Dependencies**: Pure vanilla JavaScript (except CSS parsing utility)
-- **🌟 Familiar API**: Simple, intuitive function-based approach
+- **🌟 Comprehensive API**: Events, datasets, styles, and attributes in one unified interface
+- **🔗 Familiar Patterns**: Simple, intuitive function-based approach that scales
 
-Perfect for creating complex DOM structures, data-heavy tables, dynamic lists, and performance-critical applications.
+Perfect for creating complex DOM structures, interactive components, data-heavy tables, dynamic lists, and performance-critical applications.
 
 ## Browser Support
 
@@ -56,26 +57,120 @@ const myButton = create({
 })
 ```
 
+## API at a Glance
+
+Dometizer provides a comprehensive toolkit for DOM manipulation:
+
+```js
+import { create, extend, append, batchCreate, createFromSelector } from 'dometizer'
+
+// 🎯 Create elements with full feature support
+create({
+  type: 'div',
+  className: ['card'],
+  text: 'Hello World',
+  events: { click: handleClick },
+  dataset: { id: '123' },
+  styles: { padding: '1rem' }
+})
+
+// 🔧 Enhance existing elements  
+extend(existingElement, { className: ['enhanced'] })
+
+// 📦 High-performance batch creation
+batchCreate(data, item => ({ type: 'div', text: item.name }))
+
+// 🎨 Create from CSS selectors
+createFromSelector('button#submit.btn.btn-primary')
+
+// 📌 DOM utilities
+append(container, [child1, child2])
+```
+
 ## Methods
 
 ### create
 
-| Argument  | Description                                                                   | Default   |
-|-----------|-------------------------------------------------------------------------------|-----------|
-| type      | String: HTML Type of element to be created                                    | div       |
-| className | Array<String>: Classes to be added to HTMLElement                             | []        |
-| text      | String: Inner text to be added to the HTMLElement                             | undefined |
-| children  | Array<HTMLElement>: List of child elements of the DOM Element we are creating | []        |
+Create DOM elements with comprehensive attribute support, event handling, and styling.
 
+| Parameter | Type | Description | Default |
+|-----------|------|-------------|---------|
+| type      | `string` | HTML element type to create | `"div"` |
+| className | `string[]` | CSS classes to add | `[]` |
+| text      | `string` | Inner text content | `undefined` |
+| children  | `HTMLElement[]` | Child elements to append | `[]` |
+| id        | `string` | Element ID attribute | `undefined` |
+| events    | `EventHandlers` | Event listeners to attach | `{}` |
+| dataset   | `DataAttributes` | Data attributes (data-*) | `{}` |
+| styles    | `StyleProperties` | CSS styles to apply | `{}` |
+| ...attrs  | `any` | Additional HTML attributes | - |
+
+**Basic Usage:**
 ```js
 import { create } from 'dometizer'
 
 const myButton = create({
   type: 'button',
   className: ['button', 'button--primary'],
-  'data-attribute': 'hello',
-  id: 'my-button',
-  text: 'Click Me!'
+  text: 'Click Me!',
+  id: 'my-button'
+})
+```
+
+**With Event Handling:**
+```js
+const interactiveButton = create({
+  type: 'button',
+  text: 'Interactive Button',
+  className: ['btn', 'btn-primary'],
+  events: {
+    click: (e) => console.log('Button clicked!'),
+    mouseover: (e) => e.target.classList.add('hovered'),
+    mouseout: (e) => e.target.classList.remove('hovered')
+  }
+})
+```
+
+**With Dataset and Styles:**
+```js
+const styledCard = create({
+  type: 'article',
+  className: ['card'],
+  dataset: {
+    component: 'user-card',
+    userId: '123',
+    status: 'active'
+  },
+  styles: {
+    backgroundColor: '#f8f9fa',
+    padding: '1rem',
+    borderRadius: '8px',
+    boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+  }
+})
+```
+
+**Complex Nested Structure:**
+```js
+const userProfile = create({
+  type: 'section',
+  className: ['user-profile'],
+  children: [
+    create({ 
+      type: 'img', 
+      src: user.avatar, 
+      alt: user.name,
+      className: ['avatar']
+    }),
+    create({
+      type: 'div',
+      className: ['user-info'],
+      children: [
+        create({ type: 'h3', text: user.name }),
+        create({ type: 'p', text: user.email, className: ['email'] })
+      ]
+    })
+  ]
 })
 ```
 
@@ -163,19 +258,46 @@ const button = createFromSelector('button#the-button.button.button--primary')
 
 ### extend
 
-| Argument  | Description                                                                   | Default   |
-|-----------|-------------------------------------------------------------------------------|-----------|
-| className | Array<String>: Classes to be added to HTMLElement                             | []        |
-| text      | String: Inner text to be added to the HTMLElement                             | undefined |
-| children  | Array<HTMLElement>: List of child elements of the DOM Element we are creating | []        |
+Enhance existing DOM elements with the same comprehensive attribute support as `create()`.
 
+| Parameter | Type | Description | Default |
+|-----------|------|-------------|---------|
+| element   | `HTMLElement` | Element to extend (cloned, original unchanged) | *required* |
+| className | `string[]` | CSS classes to add | `[]` |
+| text      | `string` | Inner text content to set | `undefined` |
+| children  | `HTMLElement[]` | Child elements to append | `[]` |
+| id        | `string` | Element ID attribute | `undefined` |
+| events    | `EventHandlers` | Event listeners to attach | `{}` |
+| dataset   | `DataAttributes` | Data attributes (data-*) to set | `{}` |
+| styles    | `StyleProperties` | CSS styles to apply | `{}` |
+| ...attrs  | `any` | Additional HTML attributes | - |
+
+**Basic Enhancement:**
 ```js
 import { extend } from 'dometizer'
 
-const extendedButton = extend(button, {
-    text: 'Click Me!',
-    className: ['button--primary'],
-    'data-toggle': 'modal'
+const enhancedButton = extend(existingButton, {
+  text: 'Enhanced!',
+  className: ['button--primary', 'active'],
+  'data-toggle': 'modal'
+})
+```
+
+**Adding Interactivity:**
+```js
+const interactiveElement = extend(staticElement, {
+  events: {
+    click: (e) => showModal(e.target.dataset.modalId),
+    keydown: (e) => e.key === 'Enter' && e.target.click()
+  },
+  dataset: {
+    modalId: 'user-settings',
+    keyboard: 'true'
+  },
+  styles: {
+    cursor: 'pointer',
+    userSelect: 'none'
+  }
 })
 ```
 
@@ -210,72 +332,169 @@ For large datasets (1000+ elements), `batchCreate` provides significant performa
 
 ## Use Cases
 
-### 📊 Data Tables
+### 📊 Interactive Data Tables
 ```js
-// Create large data tables efficiently
-const rows = batchCreate(apiData, (row) => ({
+// Create large data tables with event handling
+const rows = batchCreate(apiData, (row, index) => ({
   type: 'tr',
-  children: Object.values(row).map(cell => create({ type: 'td', text: cell }))
-}), { container: tableBody })
+  className: [index % 2 === 0 ? 'even' : 'odd'],
+  dataset: { rowId: row.id, index },
+  events: {
+    click: (e) => selectRow(row.id),
+    dblclick: (e) => editRow(row.id)
+  },
+  children: Object.values(row).map(cell => create({ 
+    type: 'td', 
+    text: cell,
+    events: {
+      focus: (e) => highlightCell(e.target)
+    }
+  }))
+}), { 
+  container: tableBody,
+  onComplete: (metrics) => console.log(`Table rendered in ${metrics.totalTime}ms`)
+})
 ```
 
-### 🎴 Card Grids  
+### 🎴 Interactive Card Grids
 ```js
-// Generate product cards from API data
+// Generate product cards with rich interactions
 const cards = batchCreate(products, (product) => ({
   type: 'article',
-  className: ['card'],
+  className: ['card', product.featured ? 'featured' : ''],
+  dataset: {
+    productId: product.id,
+    category: product.category,
+    price: product.price
+  },
+  events: {
+    click: (e) => viewProduct(product.id),
+    mouseenter: (e) => preloadProductDetails(product.id),
+    focus: (e) => announceProduct(product.name) // Accessibility
+  },
+  styles: {
+    cursor: 'pointer',
+    transition: 'transform 0.2s ease'
+  },
   children: [
-    create({ type: 'img', src: product.image, alt: product.name }),
+    create({ 
+      type: 'img', 
+      src: product.image, 
+      alt: product.name,
+      events: {
+        error: (e) => e.target.src = '/images/placeholder.jpg'
+      }
+    }),
     create({ type: 'h3', text: product.name }),
-    create({ type: 'p', text: `$${product.price}` })
+    create({ 
+      type: 'p', 
+      text: `$${product.price}`,
+      className: ['price']
+    }),
+    create({
+      type: 'button',
+      text: 'Add to Cart',
+      className: ['btn', 'btn-primary'],
+      events: {
+        click: (e) => {
+          e.stopPropagation() // Don't trigger card click
+          addToCart(product.id)
+        }
+      }
+    })
   ]
 }))
 ```
 
-### 📋 Dynamic Lists
+### 📋 Dynamic Form Components
 ```js
-// Build complex nested lists
-const listItems = batchCreate(menuData, (item) => ({
-  type: 'li',
+// Build complex forms with validation and interactivity
+const formFields = batchCreate(fieldConfigs, (field) => ({
+  type: 'div',
+  className: ['field-group'],
   children: [
-    create({ type: 'a', text: item.title, href: item.url }),
-    item.children?.length > 0 ? create({
-      type: 'ul',
-      children: batchCreate(item.children, subItem => ({
-        type: 'li',
-        children: [create({ type: 'a', text: subItem.title, href: subItem.url })]
-      }))
-    }) : null
-  ].filter(Boolean)
+    create({ 
+      type: 'label', 
+      text: field.label,
+      for: field.id 
+    }),
+    create({
+      type: field.type,
+      id: field.id,
+      name: field.name,
+      required: field.required,
+      placeholder: field.placeholder,
+      events: {
+        input: (e) => validateField(field.id, e.target.value),
+        blur: (e) => showFieldErrors(field.id),
+        focus: (e) => clearFieldErrors(field.id)
+      },
+      dataset: {
+        validation: field.validation,
+        errorContainer: `${field.id}-errors`
+      }
+    }),
+    create({
+      type: 'div',
+      id: `${field.id}-errors`,
+      className: ['field-errors'],
+      styles: { display: 'none' }
+    })
+  ]
 }))
 ```
 
-### ⚡ Performance-Critical Applications
+### ⚡ Real-time Data Visualization
 ```js
-// Real-time data visualization
+// High-performance chart updates with event handling
 const updateChart = (dataPoints) => {
   const points = batchCreate(dataPoints, (point, index) => ({
     type: 'div',
-    className: ['data-point'],
+    className: ['data-point', `category-${point.category}`],
+    dataset: {
+      value: point.value,
+      timestamp: point.timestamp,
+      category: point.category
+    },
+    events: {
+      mouseenter: (e) => showTooltip(point, e.clientX, e.clientY),
+      mouseleave: (e) => hideTooltip(),
+      click: (e) => drillDownData(point.category, point.timestamp)
+    },
     styles: {
       left: `${point.x}px`,
       top: `${point.y}px`,
-      backgroundColor: point.color
+      backgroundColor: point.color,
+      transform: `scale(${point.size})`,
+      transition: 'all 0.3s ease'
     }
   }), {
     container: chartContainer,
     chunkSize: 500,
-    onComplete: () => requestAnimationFrame(animateChart)
+    onProgress: (completed, total) => {
+      updateLoadingBar(completed / total * 100)
+    },
+    onComplete: () => {
+      hideLoadingBar()
+      requestAnimationFrame(() => animateChartEntrance())
+    }
   })
 }
 ```
 
 ## TypeScript Support
 
-Dometizer is built with TypeScript-first design:
+Dometizer is built with TypeScript-first design and exports comprehensive types for enhanced development experience:
 
 ```typescript
+import { 
+  create, 
+  batchCreate, 
+  extend, 
+  type BatchCreateOptions, 
+  type BatchMetrics 
+} from 'dometizer'
+
 interface User {
   id: number
   name: string
@@ -285,14 +504,67 @@ interface User {
 
 const users: User[] = await fetchUsers()
 
+// Full type safety for element attributes
 const userElements = batchCreate(users, (user, index) => ({
   type: 'div',
   className: user.active ? ['user', 'active'] : ['user', 'inactive'],
+  dataset: {
+    userId: user.id.toString(),
+    index: index.toString()
+  },
+  events: {
+    click: (e: Event) => selectUser(user.id),
+    mouseover: (e: Event) => showUserPreview(user)
+  },
   children: [
     create({ type: 'h4', text: user.name }), // ✅ Type-safe
     create({ type: 'p', text: user.email })   // ✅ Full IntelliSense
   ]
 }))
+
+// Type-safe batch options
+const options: BatchCreateOptions = {
+  chunkSize: 100,
+  container: document.querySelector('#users-container')!,
+  onProgress: (completed: number, total: number) => {
+    console.log(`Progress: ${completed}/${total}`)
+  },
+  onComplete: (metrics: BatchMetrics) => {
+    console.log(`Created ${metrics.elementsCreated} elements in ${metrics.totalTime}ms`)
+  }
+}
+```
+
+### Available Types
+
+```typescript
+// Event handlers with proper typing
+interface EventHandlers {
+  [event: string]: ((event: Event) => void) | null | undefined
+}
+
+// Data attributes (converted to data-* attributes)
+interface DataAttributes {
+  [key: string]: string | number | boolean | null | undefined
+}
+
+// CSS style properties
+interface StyleProperties {
+  [property: string]: string | number | null | undefined
+}
+
+// Complete element attributes interface
+interface Attributes {
+  type?: string
+  className?: Array<string>
+  children?: Array<HTMLElement>
+  text?: string
+  id?: string
+  events?: EventHandlers
+  dataset?: DataAttributes
+  styles?: StyleProperties
+  [rest: string]: any // Additional HTML attributes
+}
 ```
 
 ## Contributing
