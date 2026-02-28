@@ -2,7 +2,7 @@
   "name": "dometizer",
   "version": "2.0.0",
   "type": "module",
-  "description": "An easy way to create complex dom elements in vanilla JS",
+  "description": "High-performance DOM manipulation library with batch creation, automatic DocumentFragment optimization, and TypeScript support",
   "main": "dist/index.js",
   "module": "dist/index.es.js",
   "browser": "dist/index.umd.js",
