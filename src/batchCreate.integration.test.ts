@@ -42,7 +42,7 @@ describe('batchCreate Integration', () => {
       { title: 'Article 2', content: 'Content 2', tags: ['tag3'] },
     ]
 
-    const articles = batchCreate(data, (item, index) => ({
+    const articles = batchCreate(data, (item) => ({
       type: 'article',
       className: ['blog-post'],
       children: [
@@ -56,9 +56,7 @@ describe('batchCreate Integration', () => {
         create({
           type: 'div',
           className: ['tags'],
-          children: item.tags.map((tag) =>
-            create({ type: 'span', text: tag, className: ['tag'] })
-          ),
+          children: item.tags.map((tag) => create({ type: 'span', text: tag, className: ['tag'] })),
         }),
       ],
     }))
@@ -107,9 +105,7 @@ describe('batchCreate Integration', () => {
     expect(enhancedElements).toHaveLength(3)
     expect(enhancedElements[0].classList.contains('enhanced')).toBe(true)
     expect(enhancedElements[0].style.color).toBe('red')
-    expect(enhancedElements[0].children[0].classList.contains('base')).toBe(
-      true
-    )
+    expect(enhancedElements[0].children[0].classList.contains('base')).toBe(true)
   })
 
   test('chaining batchCreate operations', () => {
@@ -176,9 +172,7 @@ describe('batchCreate Integration', () => {
     expect(container.children[2]).toBe(elements[2])
 
     // Now add more elements using regular append
-    const additionalElements = [
-      create({ type: 'aside', text: 'Sidebar', className: ['sidebar'] }),
-    ]
+    const additionalElements = [create({ type: 'aside', text: 'Sidebar', className: ['sidebar'] })]
 
     append(container, additionalElements)
 
@@ -197,7 +191,7 @@ describe('batchCreate Integration', () => {
 
     const elements = batchCreate(
       largeData,
-      (item, index) => ({
+      (item) => ({
         type: 'div',
         className: ['performance-test'],
         children: [
