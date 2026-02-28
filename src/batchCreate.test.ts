@@ -233,4 +233,33 @@ describe('batchCreate', () => {
     // Should complete without errors despite invalid callbacks
     expect(elements).toHaveLength(3)
   })
+
+  test('metrics calculation when no elements are created (all template calls fail)', () => {
+    const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => {})
+    let capturedMetrics: BatchMetrics | null = null
+
+    const elements = batchCreate(
+      simpleData,
+      () => {
+        throw new Error('Template always fails')
+      },
+      {
+        onComplete: (metrics) => {
+          capturedMetrics = metrics
+        },
+      }
+    )
+
+    // No elements should be created
+    expect(elements).toHaveLength(0)
+    expect(capturedMetrics).not.toBeNull()
+    expect(capturedMetrics!.elementsCreated).toBe(0)
+    expect(capturedMetrics!.totalTime).toBeGreaterThan(0)
+    
+    // This is the key test - averageTimePerElement should be 0, not Infinity/NaN
+    expect(capturedMetrics!.averageTimePerElement).toBe(0)
+    expect(Number.isFinite(capturedMetrics!.averageTimePerElement)).toBe(true)
+
+    consoleErrorSpy.mockRestore()
+  })
 })

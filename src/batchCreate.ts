@@ -18,7 +18,7 @@ export interface BatchMetrics {
  */
 export interface BatchCreateOptions {
   /**
-   * Number of elements to process in each chunk to prevent main thread blocking
+   * Number of elements to process in each chunk for DocumentFragment optimization
    * @default 100
    */
   chunkSize?: number
@@ -95,7 +95,7 @@ export default function batchCreate<T>(
   const startTime = globalThis.performance?.now() || Date.now()
   const elements: HTMLElement[] = []
 
-  // Process elements in chunks to prevent main thread blocking
+  // Process elements in chunks for DocumentFragment optimization and progress tracking
   let processedCount = 0
 
   while (processedCount < data.length) {
@@ -131,7 +131,7 @@ export default function batchCreate<T>(
 
     // Call progress callback if provided
     if (validOnProgress) {
-      validOnProgress(processedCount, data.length)
+      validOnProgress(elements.length, data.length)
     }
   }
 
@@ -141,7 +141,7 @@ export default function batchCreate<T>(
   const metrics: BatchMetrics = {
     totalTime,
     elementsCreated: elements.length,
-    averageTimePerElement: totalTime / elements.length,
+    averageTimePerElement: elements.length > 0 ? totalTime / elements.length : 0,
   }
 
   // Call completion callback if provided
