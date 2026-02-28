@@ -91,7 +91,7 @@ High-performance batch element creation with automatic DocumentFragment optimiza
 
 **Basic Usage:**
 ```js
-import { batchCreate } from 'dometizer'
+import { batchCreate, create } from 'dometizer'
 
 const users = [
   { name: 'Alice', role: 'admin' },
@@ -199,8 +199,8 @@ append(myElement, [the, child, elements])
 For large datasets (1000+ elements), `batchCreate` provides significant performance improvements:
 
 - **DocumentFragment Optimization**: Minimizes DOM reflows by batching operations
-- **Chunked Processing**: Prevents main thread blocking with configurable chunk sizes
-- **Memory Efficient**: Processes elements in chunks to avoid memory spikes
+- **Chunked Processing**: Optimizes DOM insertion and enables progress tracking with configurable chunk sizes
+- **Memory Efficient**: Processes elements in chunks to manage memory usage
 - **Performance Tracking**: Built-in metrics for optimization insights
 
 **Benchmark Results** (1000 elements):

@@ -49,13 +49,17 @@ describe('batchCreate', () => {
   })
 
   test('empty array handling and edge cases', () => {
-    const templateMock = jest.fn(() => ({ type: 'div' }))
+    let templateCallCount = 0
+    const templateMock = () => {
+      templateCallCount++
+      return { type: 'div' }
+    }
 
     const elements = batchCreate([], templateMock)
 
     expect(elements).toHaveLength(0)
     expect(elements).toEqual([])
-    expect(templateMock).not.toHaveBeenCalled()
+    expect(templateCallCount).toBe(0)
   })
 
   test('chunked processing with custom chunk sizes', () => {
@@ -171,36 +175,42 @@ describe('batchCreate', () => {
   })
 
   test('error handling: template function errors do not stop batch processing', () => {
-    const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => {})
+    const originalConsoleError = console.error
+    const errorCalls: any[] = []
+    console.error = (...args: any[]) => {
+      errorCalls.push(args)
+    }
 
-    const mixedData = [
-      { name: 'Good 1', value: 1 },
-      { name: null, value: 2 }, // This will cause template error
-      { name: 'Good 3', value: 3 },
-    ]
+    try {
+      const mixedData = [
+        { name: 'Good 1', value: 1 },
+        { name: null, value: 2 }, // This will cause template error
+        { name: 'Good 3', value: 3 },
+      ]
 
-    const elements = batchCreate(mixedData, (item) => {
-      if (item.name === null) {
-        throw new Error('Name cannot be null')
-      }
-      return {
-        type: 'div',
-        text: item.name,
-      }
-    })
+      const elements = batchCreate(mixedData, (item) => {
+        if (item.name === null) {
+          throw new Error('Name cannot be null')
+        }
+        return {
+          type: 'div',
+          text: item.name,
+        }
+      })
 
-    // Should continue processing despite error
-    expect(elements).toHaveLength(2) // Only successful elements
-    expect(elements[0].textContent).toBe('Good 1')
-    expect(elements[1].textContent).toBe('Good 3')
+      // Should continue processing despite error
+      expect(elements).toHaveLength(2) // Only successful elements
+      expect(elements[0].textContent).toBe('Good 1')
+      expect(elements[1].textContent).toBe('Good 3')
 
-    // Should log error
-    expect(consoleErrorSpy).toHaveBeenCalledWith(
-      'batchCreate: Template function failed for item at index 1:',
-      expect.any(Error)
-    )
-
-    consoleErrorSpy.mockRestore()
+      // Should log error
+      expect(errorCalls).toHaveLength(1)
+      expect(errorCalls[0][0]).toBe('batchCreate: Template function failed for item at index 1:')
+      expect(errorCalls[0][1]).toBeInstanceOf(Error)
+      expect(errorCalls[0][1].message).toBe('Name cannot be null')
+    } finally {
+      console.error = originalConsoleError
+    }
   })
 
   test('options validation: invalid chunk size falls back to default', () => {
@@ -232,5 +242,103 @@ describe('batchCreate', () => {
 
     // Should complete without errors despite invalid callbacks
     expect(elements).toHaveLength(3)
+  })
+
+  test('metrics calculation when no elements are created (all template calls fail)', () => {
+    const originalConsoleError = console.error
+    const errorCalls: any[] = []
+    console.error = (...args: any[]) => {
+      errorCalls.push(args)
+    }
+
+    try {
+      let capturedMetrics: BatchMetrics | null = null
+
+      const elements = batchCreate(
+        simpleData,
+        () => {
+          throw new Error('Template always fails')
+        },
+        {
+          onComplete: (metrics) => {
+            capturedMetrics = metrics
+          },
+        }
+      )
+
+      // No elements should be created
+      expect(elements).toHaveLength(0)
+      expect(capturedMetrics).not.toBeNull()
+      expect(capturedMetrics!.elementsCreated).toBe(0)
+      expect(capturedMetrics!.totalTime).toBeGreaterThan(0)
+
+      // This is the key test - averageTimePerElement should be 0, not Infinity/NaN
+      expect(capturedMetrics!.averageTimePerElement).toBe(0)
+      expect(Number.isFinite(capturedMetrics!.averageTimePerElement)).toBe(true)
+
+      // Verify error logging occurred
+      expect(errorCalls).toHaveLength(3) // One for each item that failed
+    } finally {
+      console.error = originalConsoleError
+    }
+  })
+
+  test('progress reporting with failed and skipped items reaches 100%', () => {
+    const originalConsoleError = console.error
+    const errorCalls: any[] = []
+    console.error = (...args: any[]) => {
+      errorCalls.push(args)
+    }
+
+    try {
+      const progressCalls: Array<{ completed: number; total: number }> = []
+      const mixedData = [
+        { name: 'Good 1', value: 1 },
+        undefined, // This will be skipped
+        { name: null, value: 3 }, // This will cause template error
+        { name: 'Good 4', value: 4 },
+        undefined, // This will be skipped
+      ]
+
+      const elements = batchCreate(
+        mixedData,
+        (item) => {
+          if (!item || item.name === null) {
+            throw new Error('Invalid item')
+          }
+          return {
+            type: 'div',
+            text: item.name,
+          }
+        },
+        {
+          chunkSize: 2, // Small chunks to see multiple progress calls
+          onProgress: (completed, total) => {
+            progressCalls.push({ completed, total })
+          },
+        }
+      )
+
+      // Only 2 elements should be successfully created
+      expect(elements).toHaveLength(2)
+      expect(elements[0].textContent).toBe('Good 1')
+      expect(elements[1].textContent).toBe('Good 4')
+
+      // Progress should reach 100% (completed should equal total)
+      expect(progressCalls.length).toBeGreaterThan(0)
+      const lastCall = progressCalls[progressCalls.length - 1]
+      expect(lastCall.completed).toBe(5) // All 5 items processed
+      expect(lastCall.total).toBe(5) // Total items in array
+      expect(lastCall.completed).toBe(lastCall.total) // 100% completion
+
+      // Verify we get consistent total across all progress calls
+      progressCalls.forEach((call) => {
+        expect(call.total).toBe(5)
+        expect(call.completed).toBeGreaterThan(0)
+        expect(call.completed).toBeLessThanOrEqual(5)
+      })
+    } finally {
+      console.error = originalConsoleError
+    }
   })
 })
