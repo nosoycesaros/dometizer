@@ -1,41 +1,40 @@
 import append from './append'
 
 export interface EventHandlers {
-  [event: string]: ((event: Event) => void) | null | undefined;
+  [event: string]: ((event: Event) => void) | null | undefined
 }
 
 export interface DataAttributes {
-  [key: string]: string | number | boolean | null | undefined;
+  [key: string]: string | number | boolean | null | undefined
 }
 
 export interface StyleProperties {
-  [property: string]: string | number | null | undefined;
+  [property: string]: string | number | null | undefined
 }
 
 export interface Attributes {
-  type?: string,
-  className?: Array<string>,
-  children?: Array<HTMLElement>,
-  text?: string,
-  id?: string,
-  events?: EventHandlers,
-  dataset?: DataAttributes,
-  styles?: StyleProperties,
+  type?: string
+  className?: Array<string>
+  children?: Array<HTMLElement>
+  text?: string
+  id?: string
+  events?: EventHandlers
+  dataset?: DataAttributes
+  styles?: StyleProperties
   [rest: string]: any
 }
 
 const attributeDefaults: Attributes = {
   className: [],
   children: [],
-  text: undefined,
   events: {},
   dataset: {},
-  styles: {}
+  styles: {},
 }
 
 /**
  * Extends an HTMLElement with given attributes in second parameter
- * 
+ *
  * @param {HTMLElement} element element to be extended
  * @param {object} attributes list of attributes to extend
  * @param {array} [attributes.className = []] List of classes to add to the given element
@@ -45,11 +44,11 @@ const attributeDefaults: Attributes = {
  * @param {Object} [attributes.events={}] Event listeners to attach (e.g., { click: handler, focus: handler })
  * @param {Object} [attributes.dataset={}] Data attributes to set (e.g., { action: 'submit', toggle: 'modal' })
  * @param {Object} [attributes.styles={}] CSS styles to apply (e.g., { color: 'red', fontSize: '16px' })
- * 
+ *
  * @example
  * // Basic usage
  * extend(myButton, { className: ['active'], text: 'Updated Text' })
- * 
+ *
  * @example
  * // With event listeners
  * extend(myInput, {
@@ -58,7 +57,7 @@ const attributeDefaults: Attributes = {
  *     blur: (e) => console.log('Input blurred')
  *   }
  * })
- * 
+ *
  * @example
  * // With dataset and styles
  * extend(myDiv, {
@@ -67,13 +66,17 @@ const attributeDefaults: Attributes = {
  * })
  */
 export default function extend(element: HTMLElement, attributes: Attributes) {
-  const { className, children, text, events, dataset, styles, ...rest } = { ...attributeDefaults, ...attributes }
+  const { className, children, text, events, dataset, styles, ...rest } = {
+    ...attributeDefaults,
+    ...attributes,
+  }
 
   const newElement: HTMLElement = <HTMLElement>element.cloneNode(true)
-  const textNode: DocumentFragment[] = text !== undefined ? [document.createRange().createContextualFragment(text)] : []
+  const textNode: DocumentFragment[] =
+    text !== undefined ? [document.createRange().createContextualFragment(text)] : []
 
-  newElement.classList.add(...className)
-  append(newElement, [...textNode, ...children])
+  newElement.classList.add(...(className || []))
+  append(newElement, [...textNode, ...(children || [])])
 
   // Handle events parameter
   if (events) {
@@ -97,7 +100,8 @@ export default function extend(element: HTMLElement, attributes: Attributes) {
   if (styles) {
     Object.entries(styles).forEach(([property, value]) => {
       if (value !== null && value !== undefined) {
-        (newElement.style as any)[property] = value
+        // eslint-disable-next-line no-extra-semi
+        ;(newElement.style as any)[property] = value
       }
     })
   }

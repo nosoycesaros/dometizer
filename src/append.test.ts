@@ -8,10 +8,10 @@ test('Append elements to Container', () => {
   const elements = [
     document.createElement('li'),
     document.createElement('li'),
-    document.createElement('li')
+    document.createElement('li'),
   ]
 
   append(container, elements)
-  
+
   expect(container.innerHTML).toBe('<li></li><li></li><li></li>')
-});
+})

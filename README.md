@@ -120,6 +120,28 @@ This project uses [Bun](https://bun.sh/) for package management and development.
 3. Run tests: `bun run test`
 4. Build the library: `bun run build`
 
+### Code Quality
+
+This project uses automated code quality tools to maintain consistency and catch errors early:
+
+- **TypeScript**: Strict type checking with modern ES2017 target
+- **Prettier**: Automatic code formatting (run `bun run format`)
+- **ESLint**: Static analysis for bug prevention (run `bun run lint`)
+
+Before contributing:
+```bash
+# Format code
+bun run format
+
+# Check linting
+bun run lint
+
+# Run all quality checks (includes type checking, linting, formatting, and tests)
+bun run quality-check
+```
+
+The build process automatically runs quality checks to ensure code standards.
+
 ### Requirements
 - Node.js 18.x, 20.x, or 22.x
 - Bun (latest version)

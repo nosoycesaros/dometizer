@@ -1,13 +1,13 @@
 import extend, { Attributes } from './extend'
 
 const attributeDefaults: Attributes = {
-    type: 'div'
+  type: 'div',
 }
 
 /**
  * Create an HTMLElement of a given type and given properties
- * 
- * @param {object} attributes 
+ *
+ * @param {object} attributes
  * @param {string} [attributes.type=div] Type of HTMLElement to be created. defaults to div
  * @param {Array<string>} [attributes.className=[]] List of CSS classes to add to the element
  * @param {string} [attributes.text] Text content for the element
@@ -16,11 +16,11 @@ const attributeDefaults: Attributes = {
  * @param {Object} [attributes.events={}] Event listeners to attach (e.g., { click: handler, mouseover: handler })
  * @param {Object} [attributes.dataset={}] Data attributes to set (e.g., { action: 'submit', target: '#form' })
  * @param {Object} [attributes.styles={}] CSS styles to apply (e.g., { backgroundColor: 'blue', width: '100px' })
- * 
+ *
  * @example
  * // Basic usage
  * create({ type: 'button', text: 'Click me', className: ['btn', 'btn-primary'] })
- * 
+ *
  * @example
  * // With event listeners
  * create({
@@ -31,7 +31,7 @@ const attributeDefaults: Attributes = {
  *     mouseover: (e) => console.log('Hovered!')
  *   }
  * })
- * 
+ *
  * @example
  * // With dataset and styles
  * create({
@@ -42,8 +42,8 @@ const attributeDefaults: Attributes = {
  * })
  */
 export default function create(attributes: Attributes) {
-    const { type, ...rest } = { ...attributeDefaults, ...attributes }
-    const element = document.createElement(type ? type : 'div');
+  const { type, ...rest } = { ...attributeDefaults, ...attributes }
+  const element = document.createElement(type ? type : 'div')
 
-    return extend(element, rest)
+  return extend(element, rest)
 }

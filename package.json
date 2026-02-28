@@ -11,7 +11,13 @@
   },
   "scripts": {
     "test": "bun test",
-    "build": "rollup --config"
+    "build": "npm run quality-check && rollup --config",
+    "format": "prettier --write \"src/**/*.ts\"",
+    "format:check": "prettier --check \"src/**/*.ts\"",
+    "lint": "eslint \"src/**/*.ts\"",
+    "lint:fix": "eslint \"src/**/*.ts\" --fix",
+    "type-check": "tsc --noEmit",
+    "quality-check": "npm run type-check && npm run lint && npm run format:check && npm run test"
   },
   "files": [
     "dist"
@@ -20,10 +26,15 @@
   "license": "MIT",
   "devDependencies": {
     "@happy-dom/global-registrator": "^20.7.0",
+    "@types/bun": "^1.3.9",
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
+    "@typescript-eslint/parser": "^6.0.0",
+    "eslint": "^8.0.0",
+    "prettier": "^3.0.0",
     "rollup": "^2.15.0",
     "rollup-plugin-terser": "^6.1.0",
     "rollup-plugin-typescript2": "^0.29.0",
-    "typescript": "^4.0.5"
+    "typescript": "^5.0.0"
   },
   "dependencies": {
     "scalpel": "^3.0.0"
