@@ -1,6 +1,6 @@
-import { terser } from 'rollup-plugin-terser'
-import pkg from './package.json'
-import typescript from 'rollup-plugin-typescript2'
+import terser from '@rollup/plugin-terser'
+import pkg from './package.json' with { type: 'json' }
+import typescript from '@rollup/plugin-typescript'
 
 const plugins = [
     typescript(),
