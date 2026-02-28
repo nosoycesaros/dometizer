@@ -49,13 +49,17 @@ describe('batchCreate', () => {
   })
 
   test('empty array handling and edge cases', () => {
-    const templateMock = jest.fn(() => ({ type: 'div' }))
+    let templateCallCount = 0
+    const templateMock = () => {
+      templateCallCount++
+      return { type: 'div' }
+    }
 
     const elements = batchCreate([], templateMock)
 
     expect(elements).toHaveLength(0)
     expect(elements).toEqual([])
-    expect(templateMock).not.toHaveBeenCalled()
+    expect(templateCallCount).toBe(0)
   })
 
   test('chunked processing with custom chunk sizes', () => {
@@ -171,7 +175,11 @@ describe('batchCreate', () => {
   })
 
   test('error handling: template function errors do not stop batch processing', () => {
-    const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => {})
+    const originalConsoleError = console.error
+    const errorCalls: any[] = []
+    console.error = (...args: any[]) => {
+      errorCalls.push(args)
+    }
 
     const mixedData = [
       { name: 'Good 1', value: 1 },
@@ -195,12 +203,12 @@ describe('batchCreate', () => {
     expect(elements[1].textContent).toBe('Good 3')
 
     // Should log error
-    expect(consoleErrorSpy).toHaveBeenCalledWith(
-      'batchCreate: Template function failed for item at index 1:',
-      expect.any(Error)
-    )
+    expect(errorCalls).toHaveLength(1)
+    expect(errorCalls[0][0]).toBe('batchCreate: Template function failed for item at index 1:')
+    expect(errorCalls[0][1]).toBeInstanceOf(Error)
+    expect(errorCalls[0][1].message).toBe('Name cannot be null')
 
-    consoleErrorSpy.mockRestore()
+    console.error = originalConsoleError
   })
 
   test('options validation: invalid chunk size falls back to default', () => {
@@ -235,7 +243,12 @@ describe('batchCreate', () => {
   })
 
   test('metrics calculation when no elements are created (all template calls fail)', () => {
-    const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => {})
+    const originalConsoleError = console.error
+    const errorCalls: any[] = []
+    console.error = (...args: any[]) => {
+      errorCalls.push(args)
+    }
+    
     let capturedMetrics: BatchMetrics | null = null
 
     const elements = batchCreate(
@@ -260,6 +273,9 @@ describe('batchCreate', () => {
     expect(capturedMetrics!.averageTimePerElement).toBe(0)
     expect(Number.isFinite(capturedMetrics!.averageTimePerElement)).toBe(true)
 
-    consoleErrorSpy.mockRestore()
+    // Verify error logging occurred
+    expect(errorCalls).toHaveLength(3) // One for each item that failed
+
+    console.error = originalConsoleError
   })
 })
