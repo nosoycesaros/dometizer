@@ -1,21 +1,16 @@
 // @ts-ignore
-import { createParser } from 'scalpel' 
+import { createParser } from 'scalpel'
 import create from './create'
-
-type Property = {
-  type: string
-  name: string
-}
 
 /**
  * Parse a Selector to a useful format for Dometizer
- * @param {string} selector 
+ * @param {string} selector
  */
 function parseSelector(selector: string) {
   const parser = createParser()
   const parsed = parser.parse(selector)[0].body
-  const processed = parsed.slice().reduce((acc: any, prop: {name: string, type: string}) => {
-    if (acc.hasOwnProperty(prop.type)) {
+  const processed = parsed.slice().reduce((acc: any, prop: { name: string; type: string }) => {
+    if (Object.prototype.hasOwnProperty.call(acc, prop.type)) {
       acc[prop.type].push(prop.name)
     } else {
       acc[prop.type] = [prop.name]
@@ -37,6 +32,6 @@ export default function createFromSelector(selector: string) {
   return create({
     type: attributes.typeSelector[0],
     className: attributes.classSelector,
-    id: attributes.idSelector[0]
+    id: attributes.idSelector[0],
   })
 }

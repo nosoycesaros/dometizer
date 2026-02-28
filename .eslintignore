@@ -1,0 +1,6 @@
+node_modules/
+dist/
+*.min.js
+rollup.config.js
+bunfig.toml
+happydom.ts

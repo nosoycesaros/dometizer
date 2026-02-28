@@ -6,10 +6,15 @@
     "noImplicitAny": true,
     "outDir": "./dist",
     "target": "es2017",
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
+    "exactOptionalPropertyTypes": true,
+    "skipLibCheck": true,
+    "types": ["bun-types"]
   },
   "include": [
     "src/**/*"
   ],
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules", "dist", "**/*.test.ts"]
 }
