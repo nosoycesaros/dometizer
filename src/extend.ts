@@ -100,7 +100,6 @@ export default function extend(element: HTMLElement, attributes: Attributes) {
   if (styles) {
     Object.entries(styles).forEach(([property, value]) => {
       if (value !== null && value !== undefined) {
-        // eslint-disable-next-line no-extra-semi
         ;(newElement.style as any)[property] = value
       }
     })
