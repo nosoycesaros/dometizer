@@ -31,8 +31,8 @@ export interface BatchCreateOptions {
 
   /**
    * Callback function called periodically to report progress
-   * @param completed - Number of elements completed so far
-   * @param total - Total number of elements to create
+   * @param completed - Number of data items processed so far (including skipped/failed items)
+   * @param total - Total number of data items to process
    */
   onProgress?: (completed: number, total: number) => void
 
@@ -131,7 +131,7 @@ export default function batchCreate<T>(
 
     // Call progress callback if provided
     if (validOnProgress) {
-      validOnProgress(elements.length, data.length)
+      validOnProgress(processedCount, data.length)
     }
   }
 
