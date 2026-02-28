@@ -250,7 +250,7 @@ describe('batchCreate', () => {
     console.error = (...args: any[]) => {
       errorCalls.push(args)
     }
-    
+
     try {
       let capturedMetrics: BatchMetrics | null = null
 
@@ -271,7 +271,7 @@ describe('batchCreate', () => {
       expect(capturedMetrics).not.toBeNull()
       expect(capturedMetrics!.elementsCreated).toBe(0)
       expect(capturedMetrics!.totalTime).toBeGreaterThan(0)
-      
+
       // This is the key test - averageTimePerElement should be 0, not Infinity/NaN
       expect(capturedMetrics!.averageTimePerElement).toBe(0)
       expect(Number.isFinite(capturedMetrics!.averageTimePerElement)).toBe(true)
@@ -289,31 +289,35 @@ describe('batchCreate', () => {
     console.error = (...args: any[]) => {
       errorCalls.push(args)
     }
-    
+
     try {
       const progressCalls: Array<{ completed: number; total: number }> = []
       const mixedData = [
         { name: 'Good 1', value: 1 },
         undefined, // This will be skipped
-        { name: null, value: 3 }, // This will cause template error  
+        { name: null, value: 3 }, // This will cause template error
         { name: 'Good 4', value: 4 },
         undefined, // This will be skipped
       ]
 
-      const elements = batchCreate(mixedData, (item) => {
-        if (!item || item.name === null) {
-          throw new Error('Invalid item')
-        }
-        return {
-          type: 'div',
-          text: item.name,
-        }
-      }, {
-        chunkSize: 2, // Small chunks to see multiple progress calls
-        onProgress: (completed, total) => {
-          progressCalls.push({ completed, total })
+      const elements = batchCreate(
+        mixedData,
+        (item) => {
+          if (!item || item.name === null) {
+            throw new Error('Invalid item')
+          }
+          return {
+            type: 'div',
+            text: item.name,
+          }
         },
-      })
+        {
+          chunkSize: 2, // Small chunks to see multiple progress calls
+          onProgress: (completed, total) => {
+            progressCalls.push({ completed, total })
+          },
+        }
+      )
 
       // Only 2 elements should be successfully created
       expect(elements).toHaveLength(2)
@@ -328,7 +332,7 @@ describe('batchCreate', () => {
       expect(lastCall.completed).toBe(lastCall.total) // 100% completion
 
       // Verify we get consistent total across all progress calls
-      progressCalls.forEach(call => {
+      progressCalls.forEach((call) => {
         expect(call.total).toBe(5)
         expect(call.completed).toBeGreaterThan(0)
         expect(call.completed).toBeLessThanOrEqual(5)
