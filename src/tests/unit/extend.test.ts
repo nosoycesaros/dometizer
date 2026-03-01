@@ -1,5 +1,5 @@
 /// <reference lib="dom" />
-import extend from './extend'
+import extend from '@functions/extend'
 
 test('Extend button with new classes', () => {
   const button = document.createElement('button')

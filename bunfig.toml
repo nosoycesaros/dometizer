@@ -1,2 +1,7 @@
 [test]
 preload = ["./happydom.ts"]
+
+[test.paths]
+"@/*" = ["./src/*"]
+"@functions/*" = ["./src/functions/*"]
+"@tests/*" = ["./src/tests/*"]

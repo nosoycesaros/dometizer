@@ -1,5 +1,5 @@
 /// <reference lib="dom" />
-import append from './append'
+import append from '@functions/append'
 
 test('Append elements to Container', () => {
   document.body.innerHTML = `<ul class='list'></ul>`

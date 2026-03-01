@@ -1,5 +1,5 @@
 /// <reference lib="dom" />
-import createFromSelector from './createFromSelector'
+import createFromSelector from '@functions/createFromSelector'
 
 test('Create element from selector', () => {
   const button = createFromSelector('button#the-button.button.button--primary')
