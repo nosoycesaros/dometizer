@@ -1,5 +1,5 @@
 /// <reference lib="dom" />
-import batchCreate, { BatchMetrics } from './batchCreate'
+import batchCreate, { BatchMetrics } from '@functions/batchCreate'
 
 describe('batchCreate', () => {
   // Test data for various scenarios

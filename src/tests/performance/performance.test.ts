@@ -1,5 +1,5 @@
 /// <reference lib="dom" />
-import create from './create'
+import create from '@functions/create'
 
 test('Performance benchmark - event listener integration', () => {
   const iterations = 1000

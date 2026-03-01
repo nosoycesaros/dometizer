@@ -1,5 +1,5 @@
-import { Attributes } from './extend'
-import create from './create'
+import { Attributes } from '@functions/extend'
+import create from '@functions/create'
 
 /**
  * Performance metrics collected during batch creation operations

@@ -1,6 +1,6 @@
 /// <reference lib="dom" />
-import batchCreate from './batchCreate'
-import create from './create'
+import batchCreate from '@functions/batchCreate'
+import create from '@functions/create'
 
 describe('batchCreate Performance Benchmarks', () => {
   // Generate test data of various sizes

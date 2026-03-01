@@ -1,8 +1,8 @@
 /// <reference lib="dom" />
-import batchCreate from './batchCreate'
-import append from './append'
-import create from './create'
-import extend from './extend'
+import batchCreate from '@functions/batchCreate'
+import append from '@functions/append'
+import create from '@functions/create'
+import extend from '@functions/extend'
 
 describe('batchCreate Integration', () => {
   test('integration with existing append() function', () => {
